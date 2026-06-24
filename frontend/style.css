@@ -64,6 +64,30 @@ header {
     color: var(--color-accent);
 }
 
+.nav-admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(61, 28, 0, 0.25);
+    border-radius: 30px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.nav-admin-btn:hover {
+    background-color: var(--color-dark);
+    border-color: var(--color-dark);
+    color: var(--color-secondary);
+}
+
+.nav-admin-btn i { font-size: 0.72rem; }
+
 /* ── HERO / CARRUSEL ── */
 .hero {
     width: 100%;

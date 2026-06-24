@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">
+                <img src="images/logodpx.png" alt="DPX">
+            </div>
+            <button class="nav-toggle" aria-label="Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="carousel">
+            <div class="carousel-slide active" style="background-image: url('images/hero.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('images/pasteleria.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('images/panaderia.png')"></div>
+            <div class="carousel-slide" style="background-image: url('images/bocaditos.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('images/horneado.jpg')"></div>
+
+            <button class="carousel-btn prev">&#8249;</button>
+            <button class="carousel-btn next">&#8250;</button>
+
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <span class="hero-brand">Panificadora</span>
+            <h1>D'Panes Express</h1>
+            <p>Horneado con amor, tradición en cada bocado.</p>
+        </div>
+    </section>
+
+    <section id="productos" class="productos">
+        <h2 class="section-title">OFRECEMOS</h2>
+        <p class="section-subtitle">Productos de calidad para tu familia</p>
+        <div class="productos-grid">
+            <div class="producto-card">
+                <img src="images/panaderia.png" alt="Panadería">
+                <div class="producto-info">
+                    <h3>Panadería</h3>
+                    <p>Pan fresco horneado cada mañana con recetas de siempre.</p>
+                    <span class="producto-badge">Diario</span>
+                </div>
+            </div>
+            <div class="producto-card">
+                <img src="images/pasteleria.jpg" alt="Pastelería">
+                <div class="producto-info">
+                    <h3>Pastelería</h3>
+                    <p>Tortas y pasteles artesanales para cada ocasión especial.</p>
+                    <span class="producto-badge">Especial</span>
+                </div>
+            </div>
+            <div class="producto-card">
+                <img src="images/bocaditos.jpg" alt="Bocaditos">
+                <div class="producto-info">
+                    <h3>Bocaditos</h3>
+                    <p>Pequeñas delicias perfectas para eventos y reuniones.</p>
+                    <span class="producto-badge">Eventos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="servicios">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <p class="section-subtitle">Siempre cerca de ti, siempre con sabor</p>
+
+        <div class="servicio-item">
+            <div class="servicio-img">
+                <img src="images/bocaditos.jpg" alt="Eventos">
+            </div>
+            <div class="servicio-text">
+                <span class="servicio-number">01</span>
+                <h3>Eventos</h3>
+                <p>Hacemos realidad tus momentos especiales con bocaditos, tortas y panes artesanales para bodas, cumpleaños, empresas y todo tipo de celebraciones. Personaliza tu pedido y deja que el sabor sea el protagonista.</p>
+            </div>
+        </div>
+
+        <div class="servicio-item reverse">
+            <div class="servicio-img">
+                <img src="images/horneado.jpg" alt="Servicio de Horno">
+            </div>
+            <div class="servicio-text">
+                <span class="servicio-number">02</span>
+                <h3>Servicio de Horno</h3>
+                <p>¿Tienes tu propia masa o receta? Trae tu preparación y nosotros la horneamos a la perfección. Contamos con hornos profesionales para garantizar el punto exacto de cocción que tu producto merece.</p>
+            </div>
+        </div>
+
+        <div class="servicio-item">
+            <div class="servicio-img">
+                <img src="images/car.png" alt="Entrega a Domicilio">
+            </div>
+            <div class="servicio-text">
+                <span class="servicio-number">03</span>
+                <h3>Entrega a Domicilio</h3>
+                <p>Recibe tus panes y productos favoritos directamente en tu puerta. Realizamos entregas rápidas y seguras para que disfrutes de nuestro horneado fresco sin salir de casa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENCUÉNTRANOS -->
+    <section id="ubicacion" class="ubicacion">
+        <h2 class="section-title">Encuéntranos</h2>
+        <p class="section-subtitle">Ven y disfruta el sabor de siempre</p>
+        <div class="ubicacion-wrapper">
+            <div class="ubicacion-map">
+                <iframe
+                    src="https://maps.google.com/maps?q=-0.1385779,-78.4328206&t=&z=18&ie=UTF8&iwloc=&output=embed"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="ubicacion-info">
+                <div class="ubicacion-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <h4>Dirección</h4>
+                        <p>Quito, Ecuador — CP 170209</p>
+                    </div>
+                </div>
+                <div class="ubicacion-item">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <div>
+                        <h4>WhatsApp</h4>
+                        <a href="https://wa.me/593999006555" target="_blank">+593 99 900 6555</a>
+                    </div>
+                </div>
+                <div class="ubicacion-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <h4>Horario</h4>
+                        <p>Lunes a Sábado: 7:00 – 20:00</p>
+                        <p>Domingo: 8:00 – 14:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-brand-name">D'Panes Express</span>
+                <img src="images/logodpx.png" alt="D'Panes Express">
+                <p>Tradición, sabor y calidad en cada horneado.</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Contacto</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Quito, Ecuador — CP 170209</p>
+                <a href="https://wa.me/593999006555" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> +593 99 900 6555
+                </a>
+            </div>
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <div class="social-icons">
+                    <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" target="_blank" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://wa.me/593999006555" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 D'Panes Express — Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/593999006555" target="_blank" class="wa-float" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Contáctanos</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — D'Panes Express</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="../images/logodpx.png" alt="D'Panes Express">
+            <h1>Panel Admin</h1>
+            <p>D'Panes Express</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="field">
+                <label>Correo electrónico</label>
+                <div class="field-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="admin@dpx.com" required autocomplete="email">
+                </div>
+            </div>
+            <div class="field">
+                <label>Contraseña</label>
+                <div class="field-icon">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="toggle-pass" onclick="togglePass()">
+                        <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-error hidden" id="loginError">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="loginErrorMsg"></span>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnLogin">
+                <span>Ingresar</span>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <a href="../index.html" class="login-back">
+            <i class="fa-solid fa-arrow-left"></i> Volver al sitio
+        </a>
+    </div>
+
+    <script>
+        // Si ya hay token válido, ir al panel
+        if (localStorage.getItem('dpx_token')) {
+            window.location.href = 'index.html';
+        }
+
+        function togglePass() {
+            const input = document.getElementById('password');
+            const icon  = document.getElementById('eyeIcon');
+            input.type  = input.type === 'password' ? 'text' : 'password';
+            icon.className = input.type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnLogin');
+            const err = document.getElementById('loginError');
+            const msg = document.getElementById('loginErrorMsg');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ingresando...';
+            err.classList.add('hidden');
+
+            try {
+                const res  = await fetch('/api/auth/login', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({
+                        email:    document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                });
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error || 'Error al iniciar sesión');
+
+                localStorage.setItem('dpx_token', data.token);
+                localStorage.setItem('dpx_admin', JSON.stringify(data.admin));
+                window.location.href = 'index.html';
+            } catch (error) {
+                msg.textContent = error.message;
+                err.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = '<span>Ingresar</span><i class="fa-solid fa-arrow-right-to-bracket"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

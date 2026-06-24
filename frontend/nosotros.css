@@ -1,0 +1,404 @@
+/* ── PORTADA ── */
+.about-portada {
+    width: 100%;
+    height: 65vh;
+    background-image: url('images/bocaditos.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-portada::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(61, 28, 0, 0.52);
+}
+
+.about-portada-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.about-portada-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0.3rem 0 1rem;
+}
+
+.about-portada-content p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--color-secondary);
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+/* ── HISTORIA ── */
+.about-historia {
+    padding: 5rem 8rem;
+    background-color: var(--color-background);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+}
+
+.about-historia-img {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(61, 28, 0, 0.15);
+    position: relative;
+}
+
+.about-historia-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    box-shadow: inset 0 0 0 4px rgba(200, 151, 90, 0.35);
+    pointer-events: none;
+}
+
+.about-historia-img img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.about-historia-img:hover img {
+    transform: scale(1.03);
+}
+
+.about-historia-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+
+.about-eyebrow {
+    color: var(--color-highlight);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+}
+
+.about-historia-content .section-title span {
+    color: var(--color-primary);
+}
+
+.about-divider {
+    width: 36px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+.about-text {
+    font-size: 1.05rem;
+    color: var(--color-accent);
+    line-height: 1.85;
+    max-width: 640px;
+}
+
+.about-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.about-chip {
+    border: 1px solid rgba(200, 151, 90, 0.55);
+    background-color: var(--color-secondary);
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+}
+
+
+/* ── MISIÓN Y VISIÓN ── */
+.about-mv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--color-secondary);
+}
+
+.about-mv-card {
+    padding: 5rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.about-mv-card:first-child {
+    border-right: 1px solid rgba(200, 151, 90, 0.35);
+}
+
+.about-mv-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+}
+
+.about-mv-icon i {
+    color: var(--color-primary);
+    font-size: 1.3rem;
+}
+
+.about-mv-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-dark);
+}
+
+.about-mv-card p:last-child {
+    font-size: 1rem;
+    color: var(--color-accent);
+    line-height: 1.8;
+}
+
+/* ── CLIENTES ── */
+.about-clientes {
+    background-color: var(--color-dark);
+    padding: 5rem 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.4rem;
+}
+
+.about-clientes .about-eyebrow {
+    color: var(--color-primary);
+}
+
+.about-clientes .section-title {
+    color: #fff;
+}
+
+.about-clientes .section-title span {
+    color: var(--color-primary);
+}
+
+.about-clientes .about-divider {
+    background-color: var(--color-primary);
+}
+
+.about-clientes-intro {
+    font-size: 1rem;
+    color: rgba(240, 217, 168, 0.8);
+    line-height: 1.8;
+    max-width: 580px;
+}
+
+.clientes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    margin-top: 0.8rem;
+}
+
+.clientes-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(200, 151, 90, 0.25);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    text-align: center;
+    transition: background-color 0.25s, border-color 0.25s, transform 0.25s;
+}
+
+.clientes-card:hover {
+    background-color: rgba(200, 151, 90, 0.1);
+    border-color: var(--color-primary);
+    transform: translateY(-5px);
+}
+
+.clientes-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.clientes-icon i {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.clientes-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+
+.clientes-card p {
+    font-size: 0.88rem;
+    color: rgba(240, 217, 168, 0.7);
+    line-height: 1.65;
+}
+
+.about-cta--light {
+    background-color: var(--color-primary);
+    color: #fff;
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.about-cta--light:hover {
+    background-color: var(--color-accent);
+}
+
+/* ── GALERÍA CON TEXTO ── */
+.about-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.gallery-card {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-card:hover img {
+    transform: scale(1.06);
+}
+
+.gallery-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.05) 0%,
+        rgba(61, 28, 0, 0.0) 40%,
+        rgba(61, 28, 0, 0.85) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.2rem;
+    transition: background 0.3s ease;
+}
+
+.gallery-card:hover .gallery-card-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.1) 0%,
+        rgba(61, 28, 0, 0.15) 30%,
+        rgba(61, 28, 0, 0.9) 100%
+    );
+}
+
+.gallery-card-tag {
+    align-self: flex-start;
+    background-color: var(--color-highlight);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.gallery-card-text {
+    transform: translateY(8px);
+    transition: transform 0.35s ease;
+}
+
+.gallery-card:hover .gallery-card-text {
+    transform: translateY(0);
+}
+
+.gallery-card-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-card-text p {
+    font-size: 0.85rem;
+    color: rgba(240, 217, 168, 0.9);
+    line-height: 1.6;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .about-historia { padding: 4rem 3rem; gap: 3rem; }
+    .about-historia-img img { height: 380px; }
+    .about-mv-card { padding: 4rem 3rem; }
+    .about-clientes { padding: 4rem 3rem; }
+    .clientes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .about-portada { height: 55vh; }
+    .about-portada-content h1 { font-size: 3rem; letter-spacing: 3px; }
+
+    .about-historia { padding: 3rem 1.5rem; grid-template-columns: 1fr; gap: 2rem; }
+    .about-historia-img img { height: 280px; }
+
+    .about-mv { grid-template-columns: 1fr; }
+    .about-mv-card:first-child { border-right: none; border-bottom: 1px solid rgba(200, 151, 90, 0.35); }
+    .about-mv-card { padding: 3rem 1.5rem; }
+
+    .about-gallery { grid-template-columns: 1fr; gap: 4px; }
+    .gallery-card { height: 280px; }
+}
+
+@media (max-width: 480px) {
+    .about-portada { height: 50vh; }
+    .about-portada-content h1 { font-size: 2.2rem; letter-spacing: 2px; }
+    .about-portada-content p { font-size: 0.9rem; }
+
+    .about-historia { padding: 2.5rem 1rem; }
+    .about-historia-img img { height: 220px; }
+    .about-mv-card { padding: 2.5rem 1rem; }
+    .about-clientes { padding: 2.5rem 1rem; }
+    .clientes-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .gallery-card { height: 240px; }
+}

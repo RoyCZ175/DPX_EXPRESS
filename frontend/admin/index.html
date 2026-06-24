@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin — D'Panes Express</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="../images/logodpx.png" alt="DPX">
+            <span>D'Panes<br>Express</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">General</div>
+            <div class="nav-item active" data-view="dashboard">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </div>
+
+            <div class="nav-divider"></div>
+            <div class="nav-label">Productos</div>
+            <div class="nav-item" data-view="prod-panaderia">
+                <i class="fa-solid fa-bread-slice"></i> Panadería
+            </div>
+            <div class="nav-item" data-view="prod-pasteleria">
+                <i class="fa-solid fa-cake-candles"></i> Pastelería
+            </div>
+            <div class="nav-item" data-view="prod-galleteria">
+                <i class="fa-solid fa-cookie"></i> Galletería
+            </div>
+            <div class="nav-item" data-view="prod-bocaditos">
+                <i class="fa-solid fa-utensils"></i> Bocaditos
+            </div>
+            <div class="nav-item" data-view="prod-servicio_horno">
+                <i class="fa-solid fa-fire"></i> Servicio de Horno
+            </div>
+            <div class="nav-item" data-view="prod-otros">
+                <i class="fa-solid fa-star"></i> Otros
+            </div>
+
+            <div class="nav-divider"></div>
+            <div class="nav-label">Acceso</div>
+            <div class="nav-item" data-view="usuarios">
+                <i class="fa-solid fa-users"></i> Usuarios Admin
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-info">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div class="admin-info-text">
+                    <strong id="adminNombre">Admin</strong>
+                    <span id="adminRol">admin</span>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <h2 id="topbarTitle">Dashboard</h2>
+            <span class="topbar-right" id="topbarDate"></span>
+        </div>
+        <div class="content" id="content">
+            <!-- contenido dinámico -->
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal">
+        <div class="modal-head">
+            <h4 id="modalTitle">Agregar producto</h4>
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-alert hidden" id="modalAlert"></div>
+            <form id="modalForm"></form>
+        </div>
+        <div class="modal-foot">
+            <button class="btn btn-delete" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="submitModal()" id="btnSubmit">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

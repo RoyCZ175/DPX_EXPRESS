@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <div class="admin-layout">
 
     <!-- SIDEBAR -->
@@ -70,7 +71,12 @@
     <!-- MAIN -->
     <div class="main">
         <div class="topbar">
-            <h2 id="topbarTitle">Dashboard</h2>
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h2 id="topbarTitle">Dashboard</h2>
+            </div>
             <span class="topbar-right" id="topbarDate"></span>
         </div>
         <div class="content" id="content">

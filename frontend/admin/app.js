@@ -1,3 +1,14 @@
+/* ── SIDEBAR MÓVIL ── */
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
 /* ── AUTH ── */
 const token = localStorage.getItem('dpx_token');
 const admin = JSON.parse(localStorage.getItem('dpx_admin') || 'null');
@@ -45,6 +56,7 @@ document.querySelectorAll('.nav-item[data-view]').forEach(item => {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     item.classList.add('active');
     loadView(item.dataset.view);
+    closeSidebar();
   });
 });
 

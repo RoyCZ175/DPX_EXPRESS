@@ -1,9 +1,8 @@
-const express  = require('express');
-const multer   = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const express    = require('express');
+const multer     = require('multer');
 const cloudinary = require('cloudinary').v2;
-const router   = express.Router();
-const pool     = require('../config/db');
+const router     = express.Router();
+const pool       = require('../config/db');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -13,20 +12,29 @@ cloudinary.config({
 
 const TABLAS_VALIDAS = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros'];
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: (req, file) => ({
-    folder:         'dpx-express/productos',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 800, height: 800, crop: 'limit', quality: 'auto' }],
-    public_id: `${req.params.tabla}-${req.params.id}-${Date.now()}`,
-  }),
+// Guardar en memoria (no en disco)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const valido = /jpeg|jpg|png|webp/.test(file.mimetype);
+    valido ? cb(null, true) : cb(new Error('Solo se permiten imágenes JPG, PNG o WEBP'));
+  },
 });
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
+// Sube buffer a Cloudinary y devuelve la URL
+function subirACloudinary(buffer, publicId) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'dpx-express/productos', public_id: publicId },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+    stream.end(buffer);
+  });
+}
 
 // POST /api/upload/:tabla/:id
 router.post('/:tabla/:id', upload.single('imagen'), async (req, res) => {
@@ -40,17 +48,19 @@ router.post('/:tabla/:id', upload.single('imagen'), async (req, res) => {
     return res.status(400).json({ error: 'No se recibió ningún archivo' });
   }
 
-  const urlImagen = req.file.path;
-
   try {
+    const publicId  = `${tabla}-${id}-${Date.now()}`;
+    const urlImagen = await subirACloudinary(req.file.buffer, publicId);
+
     await pool.query(
       `UPDATE ${tabla} SET imagen = $1 WHERE id = $2`,
       [urlImagen, id]
     );
+
     res.json({ mensaje: 'Imagen actualizada', imagen: urlImagen });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al actualizar la imagen' });
+    console.error('Upload error:', err.message || JSON.stringify(err));
+    res.status(500).json({ error: err.message || 'Error al subir imagen' });
   }
 });
 

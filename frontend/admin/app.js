@@ -112,7 +112,7 @@ async function renderProductos(tabla) {
       <td>${p.id}</td>
       <td class="td-img">
         ${p.imagen
-          ? `<img src="../${p.imagen}" alt="${p.nombre}">`
+          ? `<img src="${p.imagen.startsWith('http') ? p.imagen : '../' + p.imagen}" alt="${p.nombre}">`
           : `<div class="no-img"><i class="fa-regular fa-image"></i></div>`}
       </td>
       <td>${p.nombre}</td>

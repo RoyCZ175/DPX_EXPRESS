@@ -25,6 +25,9 @@ const CAT_INFO = {
   otros:                    { label: 'Otros',              icon: '⭐' },
   pasteleria_eventos:       { label: 'Pasteles Eventos',   icon: '🎉' },
   pasteleria_personalizados:{ label: 'Personalizados',     icon: '🎨' },
+  bocaditos_sal:            { label: 'Bocaditos Sal',      icon: '🧂' },
+  bocaditos_dulce:          { label: 'Bocaditos Dulce',    icon: '🍬' },
+  bocaditos_carne:          { label: 'Bocaditos Carne',    icon: '🥩' },
 };
 
 /* ── INIT ── */

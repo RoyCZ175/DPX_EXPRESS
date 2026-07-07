@@ -10,7 +10,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const TABLAS_VALIDAS = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros','pasteleria_eventos','pasteleria_personalizados'];
+const TABLAS_VALIDAS = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros','pasteleria_eventos','pasteleria_personalizados','bocaditos_sal','bocaditos_dulce','bocaditos_carne'];
 
 // Guardar en memoria (no en disco)
 const upload = multer({

@@ -2,7 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const pool    = require('../config/db');
 
-const TABLAS_SIMPLES   = ['panaderia', 'pasteleria', 'galleteria', 'bocaditos', 'pasteleria_eventos', 'pasteleria_personalizados'];
+const TABLAS_SIMPLES   = ['panaderia', 'pasteleria', 'galleteria', 'bocaditos', 'pasteleria_eventos', 'pasteleria_personalizados', 'bocaditos_sal', 'bocaditos_dulce', 'bocaditos_carne'];
 const TABLAS_COMPLETAS = ['servicio_horno', 'otros'];
 const TABLAS_VALIDAS   = [...TABLAS_SIMPLES, ...TABLAS_COMPLETAS];
 

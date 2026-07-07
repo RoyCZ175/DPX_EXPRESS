@@ -21,8 +21,10 @@ const CAT_INFO = {
   pasteleria:     { label: 'Pastelería',         icon: '🎂' },
   galleteria:     { label: 'Galletería',         icon: '🍪' },
   bocaditos:      { label: 'Bocaditos',          icon: '🍽️' },
-  servicio_horno: { label: 'Servicio de Horno',  icon: '🔥' },
-  otros:          { label: 'Otros',              icon: '⭐' },
+  servicio_horno:           { label: 'Servicio de Horno',  icon: '🔥' },
+  otros:                    { label: 'Otros',              icon: '⭐' },
+  pasteleria_eventos:       { label: 'Pasteles Eventos',   icon: '🎉' },
+  pasteleria_personalizados:{ label: 'Personalizados',     icon: '🎨' },
 };
 
 /* ── INIT ── */

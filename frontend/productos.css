@@ -141,6 +141,19 @@
     gap: 2rem !important;
 }
 
+/* ── GRID DE SUBCATEGORÍAS (2 cards grandes) ── */
+.sub-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.sub-grid .cat-card {
+    height: 380px !important;
+    font-size: 1.1em;
+}
+
 .cat-card {
     border-radius: 16px;
     padding: 2.5rem 2rem;

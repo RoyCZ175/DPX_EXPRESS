@@ -3,7 +3,7 @@ const router  = express.Router();
 const pool    = require('../../config/db');
 const auth    = require('../../middleware/authMiddleware');
 
-const TABLAS          = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros'];
+const TABLAS           = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros','pasteleria_eventos','pasteleria_personalizados'];
 const TABLAS_COMPLETAS = ['servicio_horno','otros'];
 
 // GET todas las tablas con sus productos (para el dashboard)

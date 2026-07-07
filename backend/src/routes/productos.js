@@ -2,9 +2,9 @@ const express = require('express');
 const router  = express.Router();
 const pool    = require('../config/db');
 
-const TABLAS_SIMPLES  = ['panaderia', 'pasteleria', 'galleteria', 'bocaditos'];
+const TABLAS_SIMPLES   = ['panaderia', 'pasteleria', 'galleteria', 'bocaditos', 'pasteleria_eventos', 'pasteleria_personalizados'];
 const TABLAS_COMPLETAS = ['servicio_horno', 'otros'];
-const TABLAS_VALIDAS  = [...TABLAS_SIMPLES, ...TABLAS_COMPLETAS];
+const TABLAS_VALIDAS   = [...TABLAS_SIMPLES, ...TABLAS_COMPLETAS];
 
 // GET /api/productos/:categoria  — lista productos de una categoría
 router.get('/:categoria', async (req, res) => {

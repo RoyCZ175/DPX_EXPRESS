@@ -119,11 +119,8 @@ async function renderProductos(tabla) {
       ${esCompleta ? `<td>${p.descripcion || '<em style="opacity:.4">—</em>'}</td>` : ''}
       <td>
         <div class="td-actions">
-          <button class="btn btn-upload btn-sm" onclick="uploadImagen('${tabla}',${p.id})" title="Subir imagen">
-            <i class="fa-solid fa-camera"></i>
-          </button>
           <button class="btn btn-edit btn-sm" onclick="editarProducto('${tabla}',${p.id},'${escHtml(p.nombre)}','${escHtml(p.imagen||'')}','${escHtml(p.descripcion||'')}')">
-            <i class="fa-solid fa-pen"></i>
+            <i class="fa-solid fa-pen"></i> Editar
           </button>
           <button class="btn btn-delete btn-sm" onclick="eliminarProducto('${tabla}',${p.id},'${escHtml(p.nombre)}')">
             <i class="fa-solid fa-trash"></i>
@@ -159,31 +156,68 @@ function nuevoProducto(tabla) {
   openModal(`Agregar — ${CAT_INFO[tabla].label}`, `
     <div class="form-field"><label>Nombre *</label><input id="f_nombre" placeholder="Nombre del producto" required></div>
     ${esCompleta ? `<div class="form-field"><label>Descripción</label><textarea id="f_desc" placeholder="Descripción breve"></textarea></div>` : ''}
+    <div class="form-field">
+      <label>Imagen (JPG, PNG, WEBP — máx 5MB)</label>
+      <input type="file" id="f_file" accept="image/jpeg,image/png,image/webp">
+    </div>
   `, async () => {
     const nombre = document.getElementById('f_nombre').value.trim();
     if (!nombre) return showModalAlert('El nombre es obligatorio', 'error');
     const body = { nombre, descripcion: esCompleta ? document.getElementById('f_desc').value : undefined };
     const res = await api('POST', `/api/admin/productos/${tabla}`, body);
     if (res.error) return showModalAlert(res.error, 'error');
+    const file = document.getElementById('f_file').files[0];
+    if (file) {
+      const form = new FormData();
+      form.append('imagen', file);
+      showModalAlert('Subiendo imagen...', 'success');
+      await fetch(`/api/upload/${tabla}/${res.id}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: form,
+      });
+    }
     closeModal();
     renderProductos(tabla);
   });
 }
 
-/* ── Modal editar producto ── */
+/* ── Modal editar producto (nombre + imagen juntos) ── */
 function editarProducto(tabla, id, nombre, imagen, descripcion) {
   const esCompleta = TABLAS_COMPLETAS.includes(tabla);
+  const imgSrc = imagen ? (imagen.startsWith('http') ? imagen : '../' + imagen) : '';
   openModal(`Editar — ${CAT_INFO[tabla].label}`, `
+    ${imgSrc
+      ? `<div class="form-field"><img src="${imgSrc}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:0.25rem" onerror="this.style.display='none'"></div>`
+      : `<div class="form-field" style="height:60px;display:flex;align-items:center;opacity:.4;font-size:.85rem">Sin imagen aún</div>`}
+    <div class="form-field">
+      <label>Nueva imagen (opcional)</label>
+      <input type="file" id="f_file" accept="image/jpeg,image/png,image/webp">
+    </div>
     <div class="form-field"><label>Nombre *</label><input id="f_nombre" value="${nombre}" required></div>
-    <div class="form-field"><label>Imagen (ruta)</label><input id="f_imagen" value="${imagen}" placeholder="images/productos/foto.jpg"></div>
-    ${esCompleta ? `<div class="form-field"><label>Descripción</label><textarea id="f_desc">${descripcion}</textarea></div>` : ''}
+    ${esCompleta ? `<div class="form-field"><label>Descripción</label><textarea id="f_desc">${descripcion || ''}</textarea></div>` : ''}
   `, async () => {
+    const nuevoNombre = document.getElementById('f_nombre').value.trim();
+    if (!nuevoNombre) return showModalAlert('El nombre es obligatorio', 'error');
+    const file = document.getElementById('f_file').files[0];
+    if (file) {
+      const form = new FormData();
+      form.append('imagen', file);
+      showModalAlert('Subiendo imagen...', 'success');
+      const uploadRes = await fetch(`/api/upload/${tabla}/${id}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: form,
+      });
+      const uploadData = await uploadRes.json();
+      if (uploadData.error) return showModalAlert(uploadData.error, 'error');
+      imagen = uploadData.imagen;
+    }
     const body = {
-      nombre:      document.getElementById('f_nombre').value.trim(),
-      imagen:      document.getElementById('f_imagen').value.trim() || null,
+      nombre:      nuevoNombre,
+      imagen:      imagen || null,
       descripcion: esCompleta ? document.getElementById('f_desc').value : undefined,
     };
-    if (!body.nombre) return showModalAlert('El nombre es obligatorio', 'error');
     const res = await api('PUT', `/api/admin/productos/${tabla}/${id}`, body);
     if (res.error) return showModalAlert(res.error, 'error');
     closeModal();
@@ -201,30 +235,6 @@ function eliminarProducto(tabla, id, nombre) {
     closeModal();
     renderProductos(tabla);
   }, 'Eliminar', 'btn-delete');
-}
-
-/* ── Upload imagen ── */
-function uploadImagen(tabla, id) {
-  openModal('Subir imagen', `
-    <div class="form-field">
-      <label>Selecciona una imagen (JPG, PNG, WEBP — máx 5MB)</label>
-      <input type="file" id="f_file" accept="image/jpeg,image/png,image/webp">
-    </div>
-  `, async () => {
-    const file = document.getElementById('f_file').files[0];
-    if (!file) return showModalAlert('Selecciona un archivo', 'error');
-    const form = new FormData();
-    form.append('imagen', file);
-    const res = await fetch(`/api/upload/${tabla}/${id}`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: form,
-    });
-    const data = await res.json();
-    if (data.error) return showModalAlert(data.error, 'error');
-    showModalAlert('Imagen actualizada correctamente', 'success');
-    setTimeout(() => { closeModal(); renderProductos(tabla); }, 1000);
-  }, 'Subir');
 }
 
 /* ══════════════════════════════════════

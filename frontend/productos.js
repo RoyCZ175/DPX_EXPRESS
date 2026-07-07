@@ -219,11 +219,16 @@ function crearCard(p, i) {
 
 /* ── EVENTOS ── */
 
-// Filtros → van directo a los productos de esa categoría
+// Filtros → respetan el sistema de subcategorías
 document.querySelectorAll('.filtro-btn[data-cat]').forEach(btn => {
   btn.addEventListener('click', () => {
+    const key = btn.dataset.cat;
     vistaAnterior = 'categorias';
-    mostrarProductos(btn.dataset.cat);
+    if (SUBCATEGORIAS[key]) {
+      mostrarSubcategorias(key);
+    } else {
+      mostrarProductos(key);
+    }
   });
 });
 

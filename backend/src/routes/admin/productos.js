@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     const results  = await Promise.all(queries);
     const resumen  = results.map(r => ({ tabla: r.rows[0].tabla, total: parseInt(r.rows[0].count) }));
     res.json(resumen);
-  } catch (err) { res.status(500).json({ error: 'Error al obtener resumen' }); }
+  } catch (err) { console.error('GET / error:', err.message); res.status(500).json({ error: err.message }); }
 });
 
 // GET productos de una tabla
@@ -23,7 +23,7 @@ router.get('/:tabla', auth, async (req, res) => {
   try {
     const { rows } = await pool.query(`SELECT * FROM ${tabla} ORDER BY id ASC`);
     res.json(rows);
-  } catch (err) { res.status(500).json({ error: 'Error al obtener productos' }); }
+  } catch (err) { console.error('GET /:tabla error:', err.message); res.status(500).json({ error: err.message }); }
 });
 
 // POST crear producto

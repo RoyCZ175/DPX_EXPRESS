@@ -27,7 +27,18 @@ async function cargarProductos() {
   try {
     const res = await fetch(API);
     todosLosProductos = await res.json();
-    mostrarCategorias();
+
+    const catInicial = new URLSearchParams(window.location.search).get('cat');
+    if (catInicial && CATEGORIAS[catInicial] && !SUBCATS_KEYS.has(catInicial)) {
+      vistaAnterior = 'categorias';
+      if (SUBCATEGORIAS[catInicial]) {
+        mostrarSubcategorias(catInicial);
+      } else {
+        mostrarProductos(catInicial);
+      }
+    } else {
+      mostrarCategorias();
+    }
   } catch (err) {
     console.error('Error cargando productos:', err);
   }

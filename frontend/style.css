@@ -236,11 +236,15 @@ header {
 }
 
 .producto-card {
+    display: block;
     background-color: var(--color-background);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(61, 28, 0, 0.12);
     transition: transform 0.25s, box-shadow 0.25s;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
 }
 
 .producto-card:hover {

@@ -201,13 +201,9 @@ function crearCard(p, i) {
 
   return `
     <div class="prod-card" style="animation-delay:${delay}s">
-      <div class="card-img-wrap">
+      <div class="card-img-wrap" ${p.imagen ? `data-img="${p.imagen}" data-nombre="${p.nombre}"` : ''}>
         ${imgHtml}
-        <div class="card-overlay">
-          <a href="https://wa.me/593999006555?text=Hola!%20Me%20interesa%20${encodeURIComponent(p.nombre)}" target="_blank">
-            <i class="fa-brands fa-whatsapp"></i> Pedir ahora
-          </a>
-        </div>
+        ${p.imagen ? `<div class="card-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>` : ''}
       </div>
       <div class="card-info">
         <span class="card-badge">${cat.label}</span>
@@ -216,6 +212,36 @@ function crearCard(p, i) {
       </div>
     </div>`;
 }
+
+/* ── LIGHTBOX: ampliar imagen al hacer click ── */
+const lightbox    = document.getElementById('imgLightbox');
+const lightboxImg = document.getElementById('imgLightboxImg');
+
+function abrirLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  lightbox.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarLightbox() {
+  lightbox.classList.add('hidden');
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('prodGrid').addEventListener('click', (e) => {
+  const wrap = e.target.closest('.card-img-wrap[data-img]');
+  if (wrap) abrirLightbox(wrap.dataset.img, wrap.dataset.nombre);
+});
+
+document.getElementById('imgLightboxClose').addEventListener('click', cerrarLightbox);
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) cerrarLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) cerrarLightbox();
+});
 
 /* ── EVENTOS ── */
 

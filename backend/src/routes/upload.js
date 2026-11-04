@@ -10,7 +10,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const TABLAS_VALIDAS = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros','pasteleria_eventos','pasteleria_personalizados','bocaditos_sal','bocaditos_dulce','bocaditos_carne'];
+const TABLAS_VALIDAS = ['panaderia','pasteleria','galleteria','bocaditos','servicio_horno','otros','pasteleria_eventos','pasteleria_personalizados','bocaditos_sal','bocaditos_dulce','bocaditos_carne','promociones'];
 
 // Guardar en memoria (no en disco)
 const upload = multer({
@@ -23,10 +23,10 @@ const upload = multer({
 });
 
 // Sube buffer a Cloudinary y devuelve la URL
-function subirACloudinary(buffer, publicId) {
+function subirACloudinary(buffer, publicId, tabla) {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder: 'dpx-express/productos', public_id: publicId },
+      { folder: tabla === 'promociones' ? 'dpx-express/promociones' : 'dpx-express/productos', public_id: publicId },
       (error, result) => {
         if (error) return reject(error);
         resolve(result.secure_url);
@@ -50,7 +50,7 @@ router.post('/:tabla/:id', upload.single('imagen'), async (req, res) => {
 
   try {
     const publicId  = `${tabla}-${id}-${Date.now()}`;
-    const urlImagen = await subirACloudinary(req.file.buffer, publicId);
+    const urlImagen = await subirACloudinary(req.file.buffer, publicId, tabla);
 
     await pool.query(
       `UPDATE ${tabla} SET imagen = $1 WHERE id = $2`,

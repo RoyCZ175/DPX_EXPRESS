@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promociones — D'Panes Express</title>
+    <meta name="description" content="Descubre las promociones vigentes de D'Panes Express: pan, pasteles y bocaditos artesanales en Quito.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dpx-express.onrender.com/promociones.html">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="productos.css">
+    <link rel="stylesheet" href="promociones.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header><nav class="navbar">
+        <div class="nav-logo"><img src="images/logodpx.png" alt="DPX"></div>
+        <button class="nav-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="promociones.html" class="nav-active">Promociones</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+        </ul>
+        <a href="admin/login.html" class="nav-admin-btn" title="Acceso administrador"><i class="fa-solid fa-lock"></i><span>Admin</span></a>
+    </nav></header>
+
+    <section class="prod-portada promo-portada">
+        <div class="prod-portada-content">
+            <span class="hero-brand">D'Panes Express</span>
+            <h1>Promociones</h1>
+            <p>El sabor de siempre, ahora con un detalle especial</p>
+        </div>
+    </section>
+
+    <main class="promo-section">
+        <div class="promo-heading"><span class="hero-brand">Hechas para compartir</span><h2>Ofertas del momento</h2><p>Descubre nuestras promociones frescas y artesanales.</p></div>
+        <div class="promo-grid" id="promoGrid" aria-live="polite"><p class="promo-state"><i class="fa-solid fa-spinner fa-spin"></i> Cargando promociones...</p></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand"><span class="footer-brand-name">D'Panes Express</span><img src="images/logodpx.png" alt="D'Panes Express"><p>Tradición, sabor y calidad en cada horneado.</p></div>
+            <div class="footer-contact"><h4>Contacto</h4><p><i class="fa-solid fa-location-dot"></i> Quito, Ecuador — CP 170209</p><a href="https://wa.me/593999006555" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> +593 99 900 6555</a></div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 D'Panes Express — Todos los derechos reservados</p></div>
+    </footer>
+    <a href="https://wa.me/593999006555" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>Contáctanos</span></a>
+    <script src="promociones.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

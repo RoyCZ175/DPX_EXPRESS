@@ -16,7 +16,7 @@
       "url": "https://dpx-express.onrender.com/",
       "description": "Panadería y pastelería artesanal en Quito, Ecuador.",
       "telephone": "+593999006555",
-      "image": "https://dpx-express.onrender.com/images/hero.jpg",
+      "image": "https://dpx-express.onrender.com/images/hornoser.jpg",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Quito",
@@ -38,11 +38,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
+<body class="home-page">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header>
         <nav class="navbar">
             <div class="nav-logo">
-                <img src="images/logodpx.png" alt="DPX">
+                <a href="index.html" aria-label="D'Panes Express, inicio"><img src="images/logodpx.png" alt="D'Panes Express"></a>
             </div>
             <button class="nav-toggle" aria-label="Menú">
                 <span></span>
@@ -62,13 +63,14 @@
         </nav>
     </header>
 
+    <main id="contenido">
     <section id="inicio" class="hero">
         <div class="carousel">
-            <div class="carousel-slide active" style="background-image: url('images/hero.jpg')"></div>
-            <div class="carousel-slide" style="background-image: url('images/pasteleria.jpg')"></div>
-            <div class="carousel-slide" style="background-image: url('images/panaderia.png')"></div>
+            <div class="carousel-slide active" style="background-image: url('images/hornoser.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('images/especial_events.jpg')"></div>
             <div class="carousel-slide" style="background-image: url('images/bocaditos.jpg')"></div>
             <div class="carousel-slide" style="background-image: url('images/horneado.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('images/pasteleria.jpg')"></div>
 
             <button class="carousel-btn prev">&#8249;</button>
             <button class="carousel-btn next">&#8250;</button>
@@ -83,15 +85,30 @@
         </div>
 
         <div class="hero-content">
-            <span class="hero-brand">Panificadora</span>
+            <span class="hero-brand"><i class="fa-solid fa-wheat-awn"></i> Panadería artesanal en Quito</span>
             <h1>D'Panes Express</h1>
             <p>Horneado con amor, tradición en cada bocado.</p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="productos.html">Descubrir productos <i class="fa-solid fa-arrow-right"></i></a>
+                <a class="button button-outline" href="https://wa.me/593999006555?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Haz tu pedido</a>
+            </div>
         </div>
     </section>
 
+    <section class="promise-strip" aria-label="Lo que nos hace especiales">
+        <div class="promise-item"><span class="promise-icon"><i class="fa-solid fa-fire-burner"></i></span><div><strong>Recién horneado</strong><span>Fresco cada mañana</span></div></div>
+        <span class="promise-divider" aria-hidden="true"></span>
+        <div class="promise-item"><span class="promise-icon"><i class="fa-solid fa-heart"></i></span><div><strong>Hecho con cariño</strong><span>Tradición familiar</span></div></div>
+        <span class="promise-divider" aria-hidden="true"></span>
+        <div class="promise-item"><span class="promise-icon"><i class="fa-solid fa-cake-candles"></i></span><div><strong>Para cada ocasión</strong><span>Pedidos y celebraciones</span></div></div>
+    </section>
+
     <section id="productos" class="productos">
-        <h2 class="section-title">OFRECEMOS</h2>
-        <p class="section-subtitle">Productos de calidad para tu familia</p>
+        <div class="section-heading">
+            <span class="section-eyebrow">Recién salidos del horno</span>
+            <h2 class="section-title">Un antojo para cada momento</h2>
+            <p class="section-subtitle">Sabores artesanales para disfrutar en familia, celebrar o darte un gusto.</p>
+        </div>
         <div class="productos-grid">
             <a href="productos.html?cat=panaderia" class="producto-card">
                 <img src="images/panaderia.png" alt="Panadería">
@@ -99,6 +116,7 @@
                     <h3>Panadería</h3>
                     <p>Pan fresco horneado cada mañana con recetas de siempre.</p>
                     <span class="producto-badge">Diario</span>
+                    <span class="producto-link">Ver productos <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </a>
             <a href="productos.html?cat=pasteleria" class="producto-card">
@@ -107,6 +125,7 @@
                     <h3>Pastelería</h3>
                     <p>Tortas y pasteles artesanales para cada ocasión especial.</p>
                     <span class="producto-badge">Especial</span>
+                    <span class="producto-link">Ver productos <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </a>
             <a href="productos.html?cat=bocaditos" class="producto-card">
@@ -115,14 +134,18 @@
                     <h3>Bocaditos</h3>
                     <p>Pequeñas delicias perfectas para eventos y reuniones.</p>
                     <span class="producto-badge">Eventos</span>
+                    <span class="producto-link">Ver productos <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </a>
         </div>
     </section>
 
     <section id="servicios" class="servicios">
-        <h2 class="section-title">Nuestros Servicios</h2>
-        <p class="section-subtitle">Siempre cerca de ti, siempre con sabor</p>
+        <div class="section-heading">
+            <span class="section-eyebrow">Más que pan</span>
+            <h2 class="section-title">Hecho para tus momentos</h2>
+            <p class="section-subtitle">También ponemos nuestro horno y experiencia al servicio de tus ideas.</p>
+        </div>
 
         <div class="servicio-item">
             <div class="servicio-img">
@@ -156,6 +179,12 @@
                 <p>Recibe tus panes y productos favoritos directamente en tu puerta. Realizamos entregas rápidas y seguras para que disfrutes de nuestro horneado fresco sin salir de casa.</p>
             </div>
         </div>
+    </section>
+
+    <section class="promo-invite">
+        <div class="promo-invite-mark"><i class="fa-solid fa-tag"></i></div>
+        <div class="promo-invite-copy"><span>Un gustito extra</span><h2>Hay algo rico esperándote</h2><p>Mira nuestras promociones y encuentra tu próximo favorito.</p></div>
+        <a class="button button-light" href="promociones.html">Ver promociones <i class="fa-solid fa-arrow-right"></i></a>
     </section>
 
     <!-- ENCUÉNTRANOS -->
@@ -201,6 +230,8 @@
         </div>
     </section>
 
+    </main>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-content">
@@ -217,14 +248,11 @@
                 </a>
             </div>
             <div class="footer-social">
-                <h4>Síguenos</h4>
-                <div class="social-icons">
-                    <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" target="_blank" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="https://wa.me/593999006555" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                <h4>Explora</h4>
+                <div class="footer-page-links">
+                    <a class="footer-page-link" href="productos.html"><i class="fa-solid fa-bread-slice"></i> Productos</a>
+                    <a class="footer-page-link" href="promociones.html"><i class="fa-solid fa-tag"></i> Promociones</a>
+                    <a class="footer-page-link" href="nosotros.html"><i class="fa-solid fa-heart"></i> Nuestra historia</a>
                 </div>
             </div>
         </div>

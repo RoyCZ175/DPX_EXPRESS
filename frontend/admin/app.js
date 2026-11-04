@@ -397,19 +397,19 @@ function escHtml(str) { return (str||'').replace(/'/g, "\\'").replace(/"/g, '&qu
 
 /* ── INIT ── */
 async function renderPromociones() {
-  document.getElementById('topbarTitle').textContent = 'Promociones';
+  document.getElementById('topbarTitle').textContent = 'Combos';
   const items = await api('GET', '/api/admin/promociones');
   if (!Array.isArray(items)) return;
   const rows = items.map(p => `<tr><td>${p.id}</td><td class="td-img">${p.imagen ? `<img src="${escHtml(p.imagen)}" alt="${escHtml(p.nombre)}">` : '<div class="no-img"><i class="fa-regular fa-image"></i></div>'}</td><td>${escHtml(p.nombre)}</td><td>${escHtml(p.descripcion || '—')}</td><td>${p.precio_promocional == null ? '—' : '$'+Number(p.precio_promocional).toFixed(2)}</td><td><span class="badge ${p.activa?'badge-green':'badge-red'}">${p.activa?'Activa':'Inactiva'}</span></td><td><div class="td-actions"><button class="btn btn-edit btn-sm" onclick="editarPromocion(${p.id})"><i class="fa-solid fa-pen"></i> Editar</button><button class="btn btn-delete btn-sm" onclick="eliminarPromocion(${p.id},'${escHtml(p.nombre)}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`).join('');
-  document.getElementById('content').innerHTML = `<div class="table-header"><h3>🏷️ Promociones</h3><button class="btn btn-primary" onclick="nuevaPromocion()"><i class="fa-solid fa-plus"></i> Agregar promoción</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Imagen</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${rows || '<tr><td colspan="7" style="text-align:center;padding:2rem;opacity:.5">Sin promociones todavía</td></tr>'}</tbody></table></div>`;
+  document.getElementById('content').innerHTML = `<div class="table-header"><h3>🏷️ Combos</h3><button class="btn btn-primary" onclick="nuevaPromocion()"><i class="fa-solid fa-plus"></i> Agregar combo</button></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Imagen</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${rows || '<tr><td colspan="7" style="text-align:center;padding:2rem;opacity:.5">Sin combos todavía</td></tr>'}</tbody></table></div>`;
 }
 
 function formularioPromocion(p = {}) {
-  return `<div class="form-field"><label>Nombre *</label><input id="f_nombre" value="${escHtml(p.nombre || '')}" required></div><div class="form-field"><label>Descripción</label><textarea id="f_desc">${escHtml(p.descripcion || '')}</textarea></div><div class="form-field"><label>Precio anterior</label><input id="f_anterior" type="number" min="0" step="0.01" value="${p.precio_anterior ?? ''}"></div><div class="form-field"><label>Precio promocional</label><input id="f_precio" type="number" min="0" step="0.01" value="${p.precio_promocional ?? ''}"></div><div class="form-field"><label>Imagen (JPG, PNG, WEBP — máx. 5 MB)</label><input type="file" id="f_file" accept="image/jpeg,image/png,image/webp"></div>${p.id ? `<div class="form-field"><label>Estado</label><select id="f_activa"><option value="true" ${p.activa?'selected':''}>Activa</option><option value="false" ${!p.activa?'selected':''}>Inactiva</option></select></div>` : ''}`;
+  return `<div class="form-field"><label>Nombre *</label><input id="f_nombre" value="${escHtml(p.nombre || '')}" required></div><div class="form-field"><label>Descripción</label><textarea id="f_desc">${escHtml(p.descripcion || '')}</textarea></div><div class="form-field"><label>Precio anterior</label><input id="f_anterior" type="number" min="0" step="0.01" value="${p.precio_anterior ?? ''}"></div><div class="form-field"><label>Precio del combo</label><input id="f_precio" type="number" min="0" step="0.01" value="${p.precio_promocional ?? ''}"></div><div class="form-field"><label>Imagen (JPG, PNG, WEBP — máx. 5 MB)</label><input type="file" id="f_file" accept="image/jpeg,image/png,image/webp"></div>${p.id ? `<div class="form-field"><label>Estado</label><select id="f_activa"><option value="true" ${p.activa?'selected':''}>Activa</option><option value="false" ${!p.activa?'selected':''}>Inactiva</option></select></div>` : ''}`;
 }
 
 function nuevaPromocion() {
-  openModal('Nueva promoción', formularioPromocion(), async () => {
+  openModal('Nuevo combo', formularioPromocion(), async () => {
     const nombre = document.getElementById('f_nombre').value.trim();
     if (!nombre) return showModalAlert('El nombre es obligatorio', 'error');
     const body = { nombre, descripcion:document.getElementById('f_desc').value.trim(), precio_anterior:document.getElementById('f_anterior').value || null, precio_promocional:document.getElementById('f_precio').value || null };
@@ -430,7 +430,7 @@ async function editarPromocion(id) {
   const items = await api('GET', '/api/admin/promociones');
   const p = items.find(item => item.id === id);
   if (!p) return;
-  openModal('Editar promoción', formularioPromocion(p), async () => {
+  openModal('Editar combo', formularioPromocion(p), async () => {
     const nombre = document.getElementById('f_nombre').value.trim();
     if (!nombre) return showModalAlert('El nombre es obligatorio', 'error');
     let imagen = p.imagen;
@@ -449,7 +449,7 @@ async function editarPromocion(id) {
 }
 
 function eliminarPromocion(id, nombre) {
-  openModal('Eliminar promoción', `<p>¿Eliminar <strong>${escHtml(nombre)}</strong>? Esta acción no se puede deshacer.</p>`, async () => {
+  openModal('Eliminar combo', `<p>¿Eliminar <strong>${escHtml(nombre)}</strong>? Esta acción no se puede deshacer.</p>`, async () => {
     const result = await api('DELETE', `/api/admin/promociones/${id}`);
     if (result.error) return showModalAlert(result.error, 'error');
     closeModal(); renderPromociones();

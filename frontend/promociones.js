@@ -9,10 +9,10 @@ function escaparHtml(valor = '') {
 async function cargarPromociones() {
   try {
     const response = await fetch('/api/promociones');
-    if (!response.ok) throw new Error('No se pudieron cargar las promociones');
+    if (!response.ok) throw new Error('No se pudieron cargar los combos');
     const promociones = await response.json();
     if (!promociones.length) {
-      gridPromociones.innerHTML = '<p class="promo-state"><i class="fa-solid fa-bread-slice"></i><br>Pronto tendremos nuevas promociones para ti.</p>';
+      gridPromociones.innerHTML = '<p class="promo-state"><i class="fa-solid fa-bread-slice"></i><br>Pronto tendremos nuevos combos para ti.</p>';
       return;
     }
     gridPromociones.innerHTML = promociones.map(promo => {
@@ -24,7 +24,7 @@ async function cargarPromociones() {
     }).join('');
   } catch (error) {
     console.error(error);
-    gridPromociones.innerHTML = '<p class="promo-state">No pudimos cargar las promociones. Intenta nuevamente más tarde.</p>';
+    gridPromociones.innerHTML = '<p class="promo-state">No pudimos cargar los combos. Intenta nuevamente más tarde.</p>';
   }
 }
 

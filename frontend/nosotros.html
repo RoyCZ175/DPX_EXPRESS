@@ -11,31 +11,20 @@
     <link rel="stylesheet" href="nosotros.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="theme.css?v=1">
 </head>
-<body>
+<body class="site-page">
 
-    <header>
-        <nav class="navbar">
-            <div class="nav-logo">
-                <img src="images/logodpx.png" alt="DPX">
-            </div>
-            <button class="nav-toggle" aria-label="Menú">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="productos.html">Productos</a></li>
-                <li><a href="promociones.html">Promociones</a></li>
-                <li><a href="nosotros.html" class="nav-active">Nosotros</a></li>
-            </ul>
-            <a href="admin/login.html" class="nav-admin-btn" title="Acceso administrador">
-                <i class="fa-solid fa-lock"></i>
-                <span>Admin</span>
-            </a>
-        </nav>
-    </header>
+    <header class="site-header">
+ <nav class="navbar" aria-label="Navegación principal">
+ <a class="nav-logo" href="index.html" aria-label="D'Panes Express, inicio"><img src="images/logodpx.png" alt="D'Panes Express" width="144" height="80"></a>
+ <ul class="nav-links" id="menu-principal"><li><a href="index.html">Inicio</a></li>
+<li><a href="productos.html">Productos</a></li>
+<li><a href="promociones.html">Promociones</a></li>
+<li><a href="nosotros.html" class="nav-active" aria-current="page">Nosotros</a></li></ul>
+ <a href="admin/login.html" class="nav-admin-btn" title="Acceso administrador"><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Admin</span></a>
+ <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-controls="menu-principal" aria-expanded="false"><span></span><span></span><span></span></button>
+ </nav></header>
 
     <!-- PORTADA -->
     <section class="about-portada">

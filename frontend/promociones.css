@@ -6,10 +6,6 @@
 .promo-heading { text-align: center; margin-bottom: 2.5rem; }
 .promo-heading h2 { margin: .4rem 0; font: 900 clamp(1.8rem,4vw,2.8rem) 'Playfair Display',serif; color: var(--color-dark); }
 .promo-heading p { color: var(--color-accent); }
-.combo-notice { max-width: 1200px; margin: 0 auto 2rem; padding: 1.25rem; display: flex; align-items: flex-start; gap: 1rem; background: var(--color-secondary); border: 1px solid #d5bb94; border-left: 5px solid var(--color-accent); border-radius: 12px; color: var(--color-dark); }
-.combo-notice > i { font-size: 1.5rem; margin-top: .15rem; flex-shrink: 0; }
-.combo-notice h2 { margin: 0 0 .35rem; font-size: 1.15rem; }
-.combo-notice p { margin: 0; line-height: 1.6; }
 .promo-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 1.5rem; }
 .promo-card { position: relative; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: 0 6px 24px rgba(61,28,0,.12); animation: cardIn .4s ease both; }
 .promo-image { height: 230px; background: linear-gradient(135deg,#C8975A,#F0D9A8); position: relative; }
@@ -21,4 +17,19 @@
 .promo-price { display:flex;align-items:baseline;gap:.7rem;color:var(--color-highlight);font-size:1.35rem;font-weight:800; }
 .promo-price del { color:#8e8176;font-size:.95rem;font-weight:500; }
 .promo-state { grid-column:1/-1;text-align:center;padding:3.5rem 1rem;color:var(--color-accent); }
+.promo-season { grid-column: 1 / -1; min-width: 0; margin-bottom: 2rem; }
+.promo-heading .hero-brand, .promo-season-heading .hero-brand { color: #8b592d; }
+.promo-season-heading { padding: 1.5rem 0; border-top: 1px solid #d5bb94; }
+.promo-season-heading h2 { font: 700 clamp(1.7rem, 4vw, 2.5rem) 'Playfair Display', serif; color: var(--color-dark); margin-top: .4rem; overflow-wrap: anywhere; }
+.promo-info { display: flex; flex-direction: column; align-items: stretch; }
+.promo-info .promo-validity { font-size: .8rem; color: #795123; margin-top: 0; }
+.promo-description { white-space: pre-line; overflow-wrap: anywhere; }
+.promo-info h3 { overflow-wrap: anywhere; }
+.promo-info .promo-advance { background: #f1dfb7; border-left: 4px solid #a96b24; color: #583611; padding: .8rem; border-radius: 6px; margin: 1rem 0; }
+.promo-order { margin-top: 1rem; padding: .85rem; display: flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9px; background: #3d542c; color: white; text-decoration: none; font-weight: 700; font-size: .9rem; min-height: 48px; }
+.promo-order:hover { background: #2d4120; }
+.promo-empty h2 { font: 700 clamp(1.6rem, 4vw, 2.2rem) 'Playfair Display', serif; margin: 1rem 0; }
+.promo-empty p { line-height: 1.7; max-width: 560px; margin: 0 auto 1.5rem; }
+.promo-empty > i { font-size: 2rem; }
+.promo-no-image { display: grid; place-items: center; height: 100%; font: italic 1.5rem Georgia, serif; }
 @media(max-width:600px){.promo-section{padding:3rem 1rem}.promo-image{height:200px}}

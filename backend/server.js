@@ -27,6 +27,14 @@ pool.query(`CREATE TABLE IF NOT EXISTS promociones (
   activa BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 )`).then(() => {
+  // Existing offers become drafts until the administrator reviews their dates.
+  return pool.query(`ALTER TABLE promociones
+    ADD COLUMN IF NOT EXISTS publicada BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS temporada VARCHAR(120),
+    ADD COLUMN IF NOT EXISTS fecha_inicio DATE,
+    ADD COLUMN IF NOT EXISTS fecha_fin DATE,
+    ADD COLUMN IF NOT EXISTS dias_anticipacion INTEGER NOT NULL DEFAULT 2`);
+}).then(() => {
   app.listen(PORT, () => {
     console.log('Servidor iniciado en el puerto', PORT);
   });

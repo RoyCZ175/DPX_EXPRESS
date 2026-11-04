@@ -4,6 +4,7 @@
   "description": "D'Panes Express - Backend Node.js + PostgreSQL",
   "main": "server.js",
   "scripts": {
+    "test": "node --test",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

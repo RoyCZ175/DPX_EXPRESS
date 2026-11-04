@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../../config/db');
 const auth = require('../../middleware/authMiddleware');
+const { FIELDS, validate, values } = require('../../promociones');
 
 router.use(auth);
 
 router.get('/', async (_req, res) => {
   try {
-    const { rows } = await pool.query('SELECT * FROM promociones ORDER BY created_at DESC, id DESC');
+    const { rows } = await pool.query(`SELECT ${FIELDS} FROM promociones ORDER BY created_at DESC, id DESC`);
     res.json(rows);
   } catch (err) {
     console.error('GET admin promociones:', err.message);
@@ -16,13 +17,13 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { nombre, descripcion, imagen, precio_anterior, precio_promocional, activa = true } = req.body;
-  if (!nombre?.trim()) return res.status(400).json({ error: 'El nombre es obligatorio' });
+  const error = validate(req.body);
+  if (error) return res.status(400).json({ error });
   try {
     const { rows } = await pool.query(
-      `INSERT INTO promociones (nombre, descripcion, imagen, precio_anterior, precio_promocional, activa)
-       VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
-      [nombre.trim(), descripcion || null, imagen || null, precio_anterior || null, precio_promocional || null, activa]
+      `INSERT INTO promociones (nombre, descripcion, imagen, precio_anterior, precio_promocional, activa,
+        publicada, temporada, fecha_inicio, fecha_fin, dias_anticipacion)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`, values(req.body)
     );
     res.status(201).json(rows[0]);
   } catch (err) {
@@ -33,13 +34,13 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { nombre, descripcion, imagen, precio_anterior, precio_promocional, activa } = req.body;
-  if (!nombre?.trim()) return res.status(400).json({ error: 'El nombre es obligatorio' });
+  const error = validate(req.body);
+  if (error) return res.status(400).json({ error });
   try {
     const { rows } = await pool.query(
       `UPDATE promociones SET nombre=$1, descripcion=$2, imagen=$3, precio_anterior=$4,
-       precio_promocional=$5, activa=$6 WHERE id=$7 RETURNING *`,
-      [nombre.trim(), descripcion || null, imagen || null, precio_anterior || null, precio_promocional || null, activa !== false, id]
+       precio_promocional=$5, activa=$6, publicada=$7, temporada=$8, fecha_inicio=$9,
+       fecha_fin=$10, dias_anticipacion=$11 WHERE id=$12 RETURNING *`, [...values(req.body), id]
     );
     if (!rows.length) return res.status(404).json({ error: 'Promoción no encontrada' });
     res.json(rows[0]);

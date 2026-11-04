@@ -47,7 +47,9 @@
     const src = imageURL(product.imagen);
     const price = combo && product.precio_promocional != null && Number.isFinite(Number(product.precio_promocional))
       ? `<p class="price">${escape(new Intl.NumberFormat('es-EC', { style: 'currency', currency: 'USD' }).format(Number(product.precio_promocional)))}</p>` : '';
-    return `<article class="card"><div class="photo">${src ? image(src, product.nombre) : '<span>D’Panes Express</span>'}</div><h3>${escape(product.nombre)}</h3>${product.descripcion ? `<p>${escape(product.descripcion)}</p>` : ''}${price}</article>`;
+    const validity = combo && product.fecha_fin ? `<p>Válida hasta: ${escape(product.fecha_fin)}</p>` : '';
+    const advance = combo && Number(product.dias_anticipacion) > 0 ? `<p><strong>Pedir con ${Number(product.dias_anticipacion)} o más días de anticipación.</strong></p>` : '';
+    return `<article class="card"><div class="photo">${src ? image(src, product.nombre) : '<span>D’Panes Express</span>'}</div><h3>${escape(product.nombre)}</h3>${product.descripcion ? `<p>${escape(product.descripcion)}</p>` : ''}${price}${validity}${advance}</article>`;
   }
 
   async function render() {
@@ -67,7 +69,7 @@
       // Four products per page keeps photographs large and leaves space for descriptions.
       for (let i = 0; i < group.items.length; i += 4) pages.push({ ...group, items: group.items.slice(i, i + 4) });
     }
-    catalog.innerHTML = `<section class="sheet cover"><div>${image(logo, "D'Panes Express", 'cover-logo')}<p class="eyebrow">Hecho para compartir</p><h1>Catálogo<span>D’Panes Express</span></h1><p>Panadería, pastelería y bocaditos artesanales<br>Tradición y sabor en cada ocasión.</p></div>${image(imageURL('images/hornoser.jpg'), 'Nuestra panadería', 'cover-photo')}<div><p class="eyebrow">${escape(date)} · ${count} productos y opciones</p><div class="contact"><strong>Hablemos de tu próximo pedido</strong><br><a href="https://wa.me/593999006555">WhatsApp: +593 99 900 6555</a><br>Quito, Ecuador · <a href="https://dpx-express.onrender.com/">dpx-express.onrender.com</a></div></div></section>` + pages.map((page, index) => `<section class="sheet"><header class="page-header"><span>D’Panes Express</span>${image(logo, "D'Panes Express")}</header><p class="eyebrow">Nuestro catálogo · ${escape(date)}</p><h2 class="section-title">${escape(page.label)}</h2><p class="section-intro">Artesanales, preparados con dedicación para ti.</p>${page.combo ? '<p class="notice"><strong>Planifica tu pedido:</strong> los combos deben pedirse con <strong>2 o más días de anticipación</strong>.</p>' : ''}<div class="cards">${page.items.map(item => card(item, page.combo)).join('')}</div><footer class="page-footer"><span>Pedidos: +593 99 900 6555 · Quito<br>Consulta disponibilidad y cotiza tu pedido por WhatsApp.</span><span>${index + 2} / ${pages.length + 1}</span></footer></section>`).join('');
+    catalog.innerHTML = `<section class="sheet cover"><div>${image(logo, "D'Panes Express", 'cover-logo')}<p class="eyebrow">Hecho para compartir</p><h1>Catálogo<span>D’Panes Express</span></h1><p>Panadería, pastelería y bocaditos artesanales<br>Tradición y sabor en cada ocasión.</p></div>${image(imageURL('images/hornoser.jpg'), 'Nuestra panadería', 'cover-photo')}<div><p class="eyebrow">${escape(date)} · ${count} productos y opciones</p><div class="contact"><strong>Hablemos de tu próximo pedido</strong><br><a href="https://wa.me/593999006555">WhatsApp: +593 99 900 6555</a><br>Quito, Ecuador · <a href="https://dpx-express.onrender.com/">dpx-express.onrender.com</a></div></div></section>` + pages.map((page, index) => `<section class="sheet"><header class="page-header"><span>D’Panes Express</span>${image(logo, "D'Panes Express")}</header><p class="eyebrow">Nuestro catálogo · ${escape(date)}</p><h2 class="section-title">${escape(page.label)}</h2><p class="section-intro">Artesanales, preparados con dedicación para ti.</p><div class="cards">${page.items.map(item => card(item, page.combo)).join('')}</div><footer class="page-footer"><span>Pedidos: +593 99 900 6555 · Quito<br>Consulta disponibilidad y cotiza tu pedido por WhatsApp.</span><span>${index + 2} / ${pages.length + 1}</span></footer></section>`).join('');
     let failed = 0;
     await Promise.all([...catalog.querySelectorAll('img')].map(img => new Promise(resolve => {
       let done = false;
@@ -101,7 +103,7 @@
     status.textContent = 'Cargando tus productos actuales…';
     try {
       groups = await Promise.all(categories.map(async ([key, label]) => ({ label, items: await request(`/api/admin/productos/${key}`) })));
-      groups.push({ label: 'Combos para compartir', combo: true, items: (await request('/api/admin/promociones')).filter(item => item.activa) });
+      groups.push({ label: 'Promociones de temporada', combo: true, items: await request('/api/promociones') });
       await render();
     } catch (error) {
       catalog.replaceChildren();

@@ -815,39 +815,9 @@ body.home-page .hero {
 body.home-page .carousel { z-index: 0; }
 body.home-page .hero-content { z-index: 3; }
 
-body.home-page .carousel-slide { background-position: center 48%; }
-
-body.home-page .carousel-slide {
-    overflow: hidden;
-    background-color: #291508;
-    background-image: none !important;
-}
-
-body.home-page .carousel-slide::before {
-    content: '';
-    position: absolute;
-    inset: -24px;
-    z-index: 0;
-    background-image: var(--slide-image);
-    background-position: center;
-    background-size: cover;
-    filter: blur(24px) brightness(.48) saturate(.8);
-    transform: scale(1.06);
-}
-
-body.home-page .carousel-photo {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    object-position: center;
-    transform: translate(-50%, -50%);
-}
+body.home-page .carousel-slide { background-position: center; }
+body.home-page .slide-horno { background-position: center 52%; }
+body.home-page .slide-eventos { background-position: center 48%; }
 
 body.home-page .carousel-slide::after {
     z-index: 2;
@@ -1013,10 +983,10 @@ body.home-page :focus-visible { outline: 3px solid #bd7a35; outline-offset: 4px;
     body.home-page .nav-logo img { height: 62px; }
     body.home-page .nav-admin-btn { margin-left: auto; padding: .45rem .7rem; }
     body.home-page .hero { min-height: 600px; height: 78svh; }
-    body.home-page .carousel-slide { background-position: 58% center; }
+    body.home-page .carousel-slide { background-position: center; }
     body.home-page .carousel-slide::after { background: linear-gradient(90deg, rgba(29,13,4,.83), rgba(40,19,7,.48)), linear-gradient(0deg, rgba(29,13,4,.25), transparent); }
-    body.home-page .carousel-photo { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
-    body.home-page .carousel-slide.portrait-slide .carousel-photo { object-fit: contain; }
+    body.home-page .slide-horno { background-position: 62% center; }
+    body.home-page .slide-eventos { background-position: center; }
     body.home-page .hero-content { top: 52%; left: 1.35rem; width: calc(100% - 2.7rem); transform: translateY(-35%); }
     body.home-page .hero-brand { font-size: 1.05rem; }
     body.home-page .hero-content h1 { font-size: clamp(2.8rem, 13vw, 4.5rem); }

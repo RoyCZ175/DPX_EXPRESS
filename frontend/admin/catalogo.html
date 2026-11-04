@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Catálogo D'Panes Express</title>
+    <link rel="stylesheet" href="catalogo.css">
+    <script src="catalogo.js" defer></script>
+</head>
+<body>
+    <header class="toolbar">
+        <div><a href="index.html">← Panel administrador</a><h1>Catálogo de productos</h1><p>En la ventana de impresión elige «Guardar como PDF», tamaño A4 y desactiva los encabezados y pies del navegador.</p></div>
+        <div class="controls"><label><input type="checkbox" id="includeCombos" checked> Incluir combos activos</label><button id="printCatalog" disabled>Imprimir / Guardar PDF</button><button id="retry" hidden>Volver a intentar</button></div>
+        <p id="status" role="status" aria-live="polite">Preparando catálogo e imágenes…</p>
+    </header>
+    <main id="catalog"></main>
+</body>
+</html>

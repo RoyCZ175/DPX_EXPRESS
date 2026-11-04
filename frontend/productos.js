@@ -20,264 +20,117 @@ const SUBCATEGORIAS = {
 // Conjunto de claves que son subcategorías (no van en el grid principal)
 const SUBCATS_KEYS = new Set(Object.values(SUBCATEGORIAS).flat());
 
+Object.assign(CATEGORIAS, {
+  bocaditos_sal: { label: 'Bocaditos de sal', icon: '🧂' },
+  bocaditos_dulce: { label: 'Bocaditos de dulce', icon: '🍬' },
+  bocaditos_carne: { label: 'Bocaditos de carne', icon: '🥩' }
+});
 let todosLosProductos = [];
-let vistaAnterior = 'categorias';
+let categoriaActual;
+let listo = false;
+const grid = document.getElementById('prodGrid');
+const empty = document.getElementById('prodEmpty');
+const back = document.getElementById('btnBack');
+const html = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const padre = cat => Object.keys(SUBCATEGORIAS).find(key => SUBCATEGORIAS[key].includes(cat)) || '';
+const categoriaURL = () => {
+  const cat = new URLSearchParams(location.search).get('cat');
+  return CATEGORIAS[cat] ? cat : '';
+};
+function urlCategoria(cat) {
+  const url = new URL(location.href);
+  if (cat) url.searchParams.set('cat', cat); else url.searchParams.delete('cat');
+  return url;
+}
+function guardarPosicion() {
+  if (!history.state?.dpxGallery && !history.state?.dpxMenu) {
+    history.replaceState({ ...history.state, dpxProducts: { ...history.state?.dpxProducts, cat: categoriaURL(), scroll: scrollY } }, '');
+  }
+}
+function navegar(cat) {
+  if (cat === categoriaActual) return;
+  guardarPosicion();
+  const y = Math.max(0, document.querySelector('.prod-section').offsetTop - 165);
+  history.pushState({ dpxProducts: { cat, scroll: y, internal: true } }, '', urlCategoria(cat));
+  renderizar(cat, y);
+}
+function tarjetaCategoria(key, nombre, icon, imagen, count) {
+  return `<button type="button" class="cat-card" data-category="${html(key)}">${imagen ? `<img class="category-photo" src="${html(imagen)}" alt="" loading="lazy">` : ''}<span class="cat-card-overlay"></span><span class="cat-card-icon">${icon}</span><h3>${html(nombre)}</h3><span class="cat-count">${count} producto${count === 1 ? '' : 's'}</span></button>`;
+}
+function renderizar(cat, y) {
+  if (!listo) return;
+  categoriaActual = cat;
+  back.classList.toggle('hidden', !cat);
+  back.querySelector('span').textContent = padre(cat) ? `Volver a ${CATEGORIAS[padre(cat)].label}` : 'Todas las categorías';
+  document.querySelectorAll('.filtro-btn').forEach(button => {
+    const active = button.dataset.cat === (padre(cat) || cat);
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  empty.classList.add('hidden');
+  grid.className = 'prod-grid';
+  if (!cat) {
+    grid.classList.add('cat-grid');
+    grid.innerHTML = Object.entries(CATEGORIAS).filter(([key]) => !SUBCATS_KEYS.has(key)).map(([key, info]) => {
+      const keys = SUBCATEGORIAS[key] || [key];
+      return tarjetaCategoria(key, info.label, info.icon, info.img, todosLosProductos.filter(p => keys.includes(p.categoria)).length);
+    }).join('');
+  } else if (SUBCATEGORIAS[cat]) {
+    grid.classList.add('cat-grid', 'sub-grid');
+    // Keep every supported subcategory reachable, even when its cover record is missing.
+    grid.innerHTML = SUBCATEGORIAS[cat].map(key => {
+      const info = CATEGORIAS[key];
+      const cover = todosLosProductos.find(p => p.categoria === cat && `${cat}_${p.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().replace(/\s+/g, '_')}` === key);
+      return tarjetaCategoria(key, cover?.nombre || info.label, info.icon, cover?.imagen || CATEGORIAS[cat].img, todosLosProductos.filter(p => p.categoria === key).length);
+    }).join('');
+  } else {
+    const items = todosLosProductos.filter(p => p.categoria === cat);
+    empty.classList.toggle('hidden', items.length > 0);
+    grid.innerHTML = items.map(p => `<article class="prod-card"><div class="card-img-wrap">${p.imagen ? `<button type="button" class="product-photo-button" data-gallery="productos" data-src="${html(p.imagen)}" data-title="${html(p.nombre)}" aria-label="Ampliar imagen de ${html(p.nombre)}"><img src="${html(p.imagen)}" alt="${html(p.nombre)}" loading="lazy"><span class="card-overlay" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-plus"></i></span></button>` : `<div class="card-placeholder">${CATEGORIAS[cat].icon}</div>`}</div><div class="card-info"><span class="card-badge">${html(CATEGORIAS[cat].label)}</span><p class="card-nombre">${html(p.nombre)}</p>${p.descripcion ? `<p class="card-descripcion">${html(p.descripcion)}</p>` : ''}</div></article>`).join('');
+  }
+  if (Number.isFinite(y)) requestAnimationFrame(() => scrollTo(0, y));
+}
+grid.addEventListener('click', event => {
+  const card = event.target.closest('[data-category]');
+  if (card) navegar(card.dataset.category);
+});
+document.querySelectorAll('.filtro-btn').forEach(button => button.addEventListener('click', () => navegar(button.dataset.cat)));
+back.addEventListener('click', () => {
+  if (history.state?.dpxProducts?.internal) history.back();
+  else navegar(padre(categoriaActual));
+});
+window.addEventListener('popstate', () => {
+  if (categoriaURL() !== categoriaActual) renderizar(categoriaURL(), history.state?.dpxProducts?.scroll ?? 0);
+});
+let scrollTimer;
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(guardarPosicion, 120);
+}, { passive: true });
+window.addEventListener('pagehide', guardarPosicion);
+document.addEventListener('click', event => { if (event.target.closest('a[href]')) guardarPosicion(); });
 
 async function cargarProductos() {
+  grid.textContent = 'Cargando productos…';
   try {
-    const res = await fetch(API);
-    todosLosProductos = await res.json();
-
-    const catInicial = new URLSearchParams(window.location.search).get('cat');
-    if (catInicial && CATEGORIAS[catInicial] && !SUBCATS_KEYS.has(catInicial)) {
-      vistaAnterior = 'categorias';
-      if (SUBCATEGORIAS[catInicial]) {
-        mostrarSubcategorias(catInicial);
-      } else {
-        mostrarProductos(catInicial);
-      }
-    } else {
-      mostrarCategorias();
+    const response = await fetch(API);
+    if (!response.ok) throw new Error('No se pudieron cargar los productos.');
+    todosLosProductos = await response.json();
+    if (!Array.isArray(todosLosProductos)) throw new Error('Respuesta inválida.');
+    listo = true;
+    const cat = categoriaURL();
+    const saved = history.state?.dpxProducts;
+    if (!saved) {
+      // Direct category links get a parent entry so mobile Back stays in Products first.
+      history.replaceState({ ...history.state, dpxProducts: { cat: '', scroll: 0 } }, '', urlCategoria(''));
+      if (padre(cat)) history.pushState({ dpxProducts: { cat: padre(cat), scroll: 0, internal: true } }, '', urlCategoria(padre(cat)));
+      if (cat) history.pushState({ dpxProducts: { cat, scroll: 0, internal: true } }, '', urlCategoria(cat));
     }
-  } catch (err) {
-    console.error('Error cargando productos:', err);
+    renderizar(cat, saved?.scroll ?? 0);
+  } catch (error) {
+    grid.innerHTML = '<p>No pudimos cargar los productos. <button type="button" id="retryProducts">Volver a intentar</button></p>';
+    document.getElementById('retryProducts').addEventListener('click', cargarProductos);
+    console.error(error);
   }
 }
-
-/* ── VISTA 1: tarjetas de categoría (solo top-level) ── */
-function mostrarCategorias() {
-  vistaAnterior = 'categorias';
-  const grid  = document.getElementById('prodGrid');
-  const empty = document.getElementById('prodEmpty');
-  const back  = document.getElementById('btnBack');
-
-  back.classList.add('hidden');
-  empty.classList.add('hidden');
-
-  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-
-  grid.style.opacity = '0';
-  grid.style.transform = 'translateY(10px)';
-  grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-
-  setTimeout(() => {
-    grid.className = 'prod-grid cat-grid';
-
-    // Solo mostrar categorías de primer nivel (no subcategorías)
-    const topLevel = Object.entries(CATEGORIAS).filter(([key]) => !SUBCATS_KEYS.has(key));
-
-    grid.innerHTML = topLevel.map(([key, cat], i) => {
-      // Para categorías con sub, sumar productos de todas las sub-tablas
-      const subKeys = SUBCATEGORIAS[key] || [key];
-      const count   = todosLosProductos.filter(p => subKeys.includes(p.categoria)).length;
-      const bgStyle = cat.img
-        ? `style="animation-delay:${i * 0.07}s; background-image: url('${cat.img}');"`
-        : `style="animation-delay:${i * 0.07}s;"`;
-      return `
-        <div class="cat-card cat-${key}" data-cat="${key}" ${bgStyle}>
-          <div class="cat-card-overlay"></div>
-          <div class="cat-card-icon">${cat.icon}</div>
-          <h3>${cat.label}</h3>
-          <p>${cat.desc}</p>
-          <span class="cat-count">${count} producto${count !== 1 ? 's' : ''}</span>
-        </div>`;
-    }).join('');
-
-    grid.style.opacity = '1';
-    grid.style.transform = 'translateY(0)';
-
-    grid.querySelectorAll('.cat-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const key = card.dataset.cat;
-        if (SUBCATEGORIAS[key]) {
-          mostrarSubcategorias(key);
-        } else {
-          vistaAnterior = 'categorias';
-          mostrarProductos(key);
-        }
-      });
-    });
-  }, 200);
-}
-
-/* ── VISTA 2: subcategorías — generadas dinámicamente desde la tabla padre ── */
-function mostrarSubcategorias(parentCat) {
-  const grid  = document.getElementById('prodGrid');
-  const empty = document.getElementById('prodEmpty');
-  const back  = document.getElementById('btnBack');
-
-  back.classList.remove('hidden');
-  back.querySelector('span').textContent = CATEGORIAS[parentCat]?.label || parentCat;
-
-  empty.classList.add('hidden');
-  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-
-  // Los registros de la tabla `pasteleria` definen las subcategorías dinámicamente
-  const subs = todosLosProductos.filter(p => p.categoria === parentCat);
-
-  grid.style.opacity = '0';
-  grid.style.transform = 'translateY(10px)';
-  grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-
-  setTimeout(() => {
-    grid.className = 'prod-grid cat-grid sub-grid';
-
-    if (!subs.length) {
-      grid.innerHTML = '';
-      empty.classList.remove('hidden');
-      grid.style.opacity = '1';
-      grid.style.transform = 'translateY(0)';
-      return;
-    }
-
-    grid.innerHTML = subs.map((sub, i) => {
-      // "Eventos" → pasteleria_eventos  |  "Personalizados" → pasteleria_personalizados
-      const tablaKey = `${parentCat}_${sub.nombre.toLowerCase()
-        .normalize('NFD').replace(/[̀-ͯ]/g, '')
-        .replace(/\s+/g, '_')}`;
-      const count    = todosLosProductos.filter(p => p.categoria === tablaKey).length;
-      const catInfo  = CATEGORIAS[tablaKey] || {};
-      const icon     = catInfo.icon || '🎂';
-      const imgStyle = sub.imagen ? `background-image: url('${sub.imagen}');` : '';
-      return `
-        <div class="cat-card cat-${parentCat}" data-cat="${tablaKey}"
-             style="animation-delay:${i * 0.1}s; ${imgStyle}">
-          <div class="cat-card-overlay"></div>
-          <div class="cat-card-icon">${icon}</div>
-          <h3>${sub.nombre}</h3>
-          <span class="cat-count">${count} producto${count !== 1 ? 's' : ''}</span>
-        </div>`;
-    }).join('');
-
-    grid.style.opacity = '1';
-    grid.style.transform = 'translateY(0)';
-
-    grid.querySelectorAll('.cat-card').forEach(card => {
-      card.addEventListener('click', () => {
-        vistaAnterior = 'sub_' + parentCat;
-        mostrarProductos(card.dataset.cat);
-      });
-    });
-  }, 200);
-}
-
-/* ── VISTA 3: productos de una categoría/subcategoría ── */
-function mostrarProductos(cat) {
-  const grid  = document.getElementById('prodGrid');
-  const empty = document.getElementById('prodEmpty');
-  const back  = document.getElementById('btnBack');
-
-  back.classList.remove('hidden');
-  back.querySelector('span').textContent = CATEGORIAS[cat]?.label || cat;
-
-  const lista = todosLosProductos.filter(p => p.categoria === cat);
-
-  document.querySelectorAll('.filtro-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.cat === cat);
-  });
-
-  grid.style.opacity = '0';
-  grid.style.transform = 'translateY(10px)';
-  grid.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-
-  setTimeout(() => {
-    if (!lista.length) {
-      grid.innerHTML = '';
-      empty.classList.remove('hidden');
-      grid.style.opacity = '1';
-      grid.style.transform = 'translateY(0)';
-      return;
-    }
-
-    empty.classList.add('hidden');
-    grid.className = 'prod-grid';
-    grid.innerHTML = lista.map((p, i) => crearCard(p, i)).join('');
-    grid.style.opacity = '1';
-    grid.style.transform = 'translateY(0)';
-  }, 200);
-}
-
-/* ── CARD de producto ── */
-function crearCard(p, i) {
-  const cat   = CATEGORIAS[p.categoria] || { label: p.categoria, icon: '📦' };
-  const delay = (i % 8) * 0.05;
-
-  const imgHtml = p.imagen
-    ? `<img src="${p.imagen}" alt="${p.nombre}" loading="lazy">`
-    : `<div class="card-placeholder ${p.categoria}">${cat.icon}</div>`;
-
-  const descHtml = p.descripcion
-    ? `<p class="card-descripcion">${p.descripcion}</p>`
-    : '';
-
-  return `
-    <div class="prod-card" style="animation-delay:${delay}s">
-      <div class="card-img-wrap" ${p.imagen ? `data-img="${p.imagen}" data-nombre="${p.nombre}"` : ''}>
-        ${imgHtml}
-        ${p.imagen ? `<div class="card-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>` : ''}
-      </div>
-      <div class="card-info">
-        <span class="card-badge">${cat.label}</span>
-        <p class="card-nombre">${p.nombre}</p>
-        ${descHtml}
-      </div>
-    </div>`;
-}
-
-/* ── LIGHTBOX: ampliar imagen al hacer click ── */
-const lightbox    = document.getElementById('imgLightbox');
-const lightboxImg = document.getElementById('imgLightboxImg');
-
-function abrirLightbox(src, alt) {
-  lightboxImg.src = src;
-  lightboxImg.alt = alt || '';
-  lightbox.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-}
-
-function cerrarLightbox() {
-  lightbox.classList.add('hidden');
-  lightboxImg.src = '';
-  document.body.style.overflow = '';
-}
-
-document.getElementById('prodGrid').addEventListener('click', (e) => {
-  const wrap = e.target.closest('.card-img-wrap[data-img]');
-  if (wrap) abrirLightbox(wrap.dataset.img, wrap.dataset.nombre);
-});
-
-document.getElementById('imgLightboxClose').addEventListener('click', cerrarLightbox);
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) cerrarLightbox();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) cerrarLightbox();
-});
-
-/* ── EVENTOS ── */
-
-// Filtros → respetan el sistema de subcategorías
-document.querySelectorAll('.filtro-btn[data-cat]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const key = btn.dataset.cat;
-    vistaAnterior = 'categorias';
-    if (SUBCATEGORIAS[key]) {
-      mostrarSubcategorias(key);
-    } else {
-      mostrarProductos(key);
-    }
-  });
-});
-
-// Botón volver: regresa al nivel anterior
-document.getElementById('btnBack').addEventListener('click', () => {
-  if (vistaAnterior.startsWith('sub_')) {
-    const parent = vistaAnterior.replace('sub_', '');
-    vistaAnterior = 'categorias';
-    mostrarSubcategorias(parent);
-  } else {
-    mostrarCategorias();
-  }
-});
-
 cargarProductos();

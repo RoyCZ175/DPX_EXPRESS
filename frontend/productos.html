@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="theme.css?v=1">
+    <link rel="stylesheet" href="galeria.css?v=1">
 </head>
 <body class="site-page">
 
@@ -61,10 +62,10 @@
 
     <!-- GRID -->
     <section class="prod-section">
-        <div class="prod-back hidden" id="btnBack">
+        <button type="button" class="prod-back hidden" id="btnBack">
             <i class="fa-solid fa-arrow-left"></i>
             <span>Panadería</span>
-        </div>
+        </button>
         <div class="prod-empty hidden" id="prodEmpty">
             <i class="fa-solid fa-box-open"></i>
             <p>No hay productos en esta categoría aún.</p>
@@ -109,15 +110,8 @@
         <span>Contáctanos</span>
     </a>
 
-    <!-- LIGHTBOX: vista ampliada de imagen -->
-    <div class="img-lightbox hidden" id="imgLightbox">
-        <button class="img-lightbox-close" id="imgLightboxClose" aria-label="Cerrar">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <img src="" alt="" id="imgLightboxImg">
-    </div>
-
-    <script src="productos.js?v=4"></script>
-    <script src="script.js"></script>
+    <script src="productos.js?v=5"></script>
+    <script src="galeria.js?v=1"></script>
+    <script src="script.js?v=2"></script>
 </body>
 </html>

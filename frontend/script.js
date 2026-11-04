@@ -1,14 +1,30 @@
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
-function setMenu(open) {
+let menuClosing = false;
+let pendingNavigation;
+function setMenu(open, fromHistory = false) {
  if (!navToggle || !navLinks) return;
+ if (!fromHistory) {
+  if (open && !history.state?.dpxMenu) history.pushState({ ...history.state, dpxMenu: true }, '');
+  if (!open && history.state?.dpxMenu && !menuClosing) { menuClosing = true; history.back(); }
+ }
  navToggle.classList.toggle('open', open);
  navLinks.classList.toggle('open', open);
  navToggle.setAttribute('aria-expanded', String(open));
  navToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
 }
 navToggle?.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
-navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', event => {
+ if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+ if (history.state?.dpxMenu) { event.preventDefault(); pendingNavigation = link.href; }
+ setMenu(false);
+}));
+window.addEventListener('popstate', () => {
+ menuClosing = false;
+ setMenu(Boolean(history.state?.dpxMenu), true);
+ if (pendingNavigation) { const url = pendingNavigation; pendingNavigation = undefined; location.assign(url); }
+});
+window.addEventListener('pageshow', () => setMenu(Boolean(history.state?.dpxMenu), true));
 document.addEventListener('keydown', event => {
  if (event.key === 'Escape' && navToggle?.classList.contains('open')) { setMenu(false); navToggle.focus(); }
 });

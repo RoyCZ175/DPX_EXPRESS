@@ -54,6 +54,14 @@
  </nav></header>
 
     <main id="contenido">
+    <section class="promo-spotlight" id="promo-spotlight" aria-labelledby="spotlight-title" hidden>
+        <div class="spotlight-heading">
+            <div><span class="section-eyebrow">¡Aprovecha estas promociones!</span><h2 id="spotlight-title">Hoy se antoja algo especial</h2></div>
+            <a href="promociones.html">Ver todas las promociones <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="spotlight-track" id="spotlight-track" tabindex="0" role="region" aria-label="Anuncios de promociones; desplázate para ver más"></div>
+        <p class="spotlight-hint" id="spotlight-hint" hidden>Desliza o desplázate para ver más promociones →</p>
+    </section>
     <section id="inicio" class="hero">
         <div class="carousel">
             <div class="carousel-slide active slide-horno" style="background-image: url('images/hornoser.jpg')"></div>
@@ -75,6 +83,7 @@
             <div class="hero-actions">
                 <a class="button button-primary" href="productos.html">Descubrir productos <i class="fa-solid fa-arrow-right"></i></a>
                 <a class="button button-outline" href="https://wa.me/593999006555?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Haz tu pedido</a>
+                <a class="button button-outline" href="https://www.facebook.com/share/1CDGh8E7iW/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Síguenos en Facebook</a>
             </div>
         </div>
     </section>
@@ -124,6 +133,59 @@
         </div>
     </section>
 
+    <section class="home-discover" aria-labelledby="favorites-title">
+        <div class="section-heading">
+            <span class="section-eyebrow">Encuentra tu próximo antojo</span>
+            <h2 class="section-title" id="favorites-title">Los favoritos de la casa</h2>
+            <p class="section-subtitle">Una selección de nuestro catálogo. Consulta el precio y la disponibilidad directamente con nosotros.</p>
+        </div>
+        <p id="favorites-status" role="status">Cargando productos…</p>
+        <div class="home-card-grid" id="home-favorites"></div>
+        <noscript><p><a href="productos.html">Explora nuestro catálogo</a> o contáctanos por WhatsApp para conocer los productos.</p></noscript>
+    </section>
+
+    <section class="home-discover celebration-section" aria-labelledby="celebration-title">
+        <div class="section-heading">
+            <span class="section-eyebrow">Tú pones la ocasión</span>
+            <h2 class="section-title" id="celebration-title">Planea tu celebración</h2>
+            <p class="section-subtitle">Cuéntanos qué tienes en mente y te ayudamos a preparar tu solicitud.</p>
+        </div>
+        <div class="home-card-grid celebration-options">
+            <button type="button" class="celebration-option" data-service="torta" aria-pressed="true"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i><strong>Tortas</strong><span>Un detalle especial para celebrar.</span></button>
+            <button type="button" class="celebration-option" data-service="bocaditos" aria-pressed="false"><i class="fa-solid fa-utensils" aria-hidden="true"></i><strong>Bocaditos</strong><span>Dulces, salados o una combinación.</span></button>
+            <button type="button" class="celebration-option" data-service="horno" aria-pressed="false"><i class="fa-solid fa-fire-burner" aria-hidden="true"></i><strong>Servicio de horno</strong><span>Cuéntanos qué necesitas hornear.</span></button>
+        </div>
+        <form id="celebration-form" class="celebration-form">
+            <label>Tu nombre<input name="nombre" autocomplete="given-name" maxlength="80" required></label>
+            <label>Fecha solicitada<input name="fecha" type="date" required></label>
+            <label><span id="quantity-label">Número de personas</span><input name="cantidad" type="number" min="1" max="100000" step="1" required></label>
+            <label>¿Cómo lo recibirías?<select name="entrega"><option>Retiro en el local</option><option>Entrega a domicilio (por confirmar)</option></select></label>
+            <label class="form-wide"><span id="details-label">Sabores, diseño o idea para tu torta</span><textarea name="detalles" rows="3" maxlength="1200" placeholder="Cuéntanos lo que tienes en mente"></textarea></label>
+            <p class="form-wide order-note">Abriremos WhatsApp con tu solicitud preparada para que la revises y la envíes. Confirmaremos precio, disponibilidad y entrega por ese medio.</p>
+            <button class="button whatsapp-consult form-wide" type="submit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Preparar consulta en WhatsApp</button>
+        </form>
+    </section>
+
+    <section class="home-discover" aria-labelledby="work-gallery-title">
+        <div class="section-heading">
+            <span class="section-eyebrow">Un vistazo a nuestros sabores</span>
+            <h2 class="section-title" id="work-gallery-title">Conoce lo que preparamos</h2>
+            <p class="section-subtitle">Inspírate para tu próximo pedido. Toca una foto para verla de cerca.</p>
+        </div>
+        <div class="home-card-grid work-gallery">
+            <button type="button" data-gallery="trabajos" data-src="images/pasteleria.jpg" data-title="Pastelería" aria-label="Ampliar foto de pastelería"><img src="images/pasteleria.jpg" alt="Pastelería" loading="lazy"><span>Pastelería</span></button>
+            <button type="button" data-gallery="trabajos" data-src="images/bocaditos.jpg" data-title="Bocaditos para compartir" aria-label="Ampliar foto de bocaditos"><img src="images/bocaditos.jpg" alt="Bocaditos para compartir" loading="lazy"><span>Bocaditos para compartir</span></button>
+            <button type="button" data-gallery="trabajos" data-src="images/panaderia.png" data-title="Panadería artesanal" aria-label="Ampliar foto de panadería"><img src="images/panaderia.png" alt="Panadería artesanal" loading="lazy"><span>Panadería artesanal</span></button>
+        </div>
+    </section>
+
+    <section class="home-discover experience-invite" aria-labelledby="experience-title">
+        <span class="section-eyebrow">Nos gusta escucharte</span>
+        <h2 id="experience-title">¿Ya probaste nuestros productos?</h2>
+        <p>Cuéntanos cómo fue tu experiencia. Tus comentarios nos ayudan a seguir mejorando cada horneado.</p>
+        <a class="button whatsapp-consult" href="https://wa.me/593999006555?text=Hola%2C%20quiero%20compartir%20mi%20experiencia%20con%20D%27Panes%20Express%3A%20" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Compartir mi experiencia</a>
+    </section>
+
     <section id="servicios" class="servicios">
         <div class="section-heading">
             <span class="section-eyebrow">Más que pan</span>
@@ -169,6 +231,16 @@
         <div class="promo-invite-mark"><i class="fa-solid fa-tag"></i></div>
         <div class="promo-invite-copy"><span>Un gustito extra</span><h2>Hay algo rico esperándote</h2><p>Mira nuestras promociones y encuentra tu próximo favorito.</p></div>
         <a class="button button-light" href="promociones.html">Ver promociones <i class="fa-solid fa-arrow-right"></i></a>
+    </section>
+
+    <section class="facebook-invite" aria-labelledby="facebook-title">
+        <span class="facebook-invite-icon" aria-hidden="true"><i class="fa-brands fa-facebook-f"></i></span>
+        <div class="facebook-invite-copy">
+            <span class="section-eyebrow">Conecta con D'Panes Express</span>
+            <h2 id="facebook-title">Síguenos en Facebook</h2>
+            <p>Descubre nuestras novedades, productos y promociones. ¡También nos encontramos en Facebook!</p>
+        </div>
+        <a class="button facebook-button" href="https://www.facebook.com/share/1CDGh8E7iW/" target="_blank" rel="noopener noreferrer">Visitar Facebook <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
     </section>
 
     <!-- ENCUÉNTRANOS -->
@@ -237,6 +309,7 @@
                     <a class="footer-page-link" href="productos.html"><i class="fa-solid fa-bread-slice"></i> Productos</a>
                     <a class="footer-page-link" href="promociones.html"><i class="fa-solid fa-tag"></i> Promociones</a>
                     <a class="footer-page-link" href="nosotros.html"><i class="fa-solid fa-heart"></i> Nuestra historia</a>
+                    <a class="footer-page-link" href="https://www.facebook.com/share/1CDGh8E7iW/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Síguenos en Facebook</a>
                 </div>
             </div>
         </div>
@@ -250,6 +323,9 @@
         <span>Contáctanos</span>
     </a>
 
+    <script src="pedidos.js?v=1"></script>
+    <script src="inicio-promociones.js?v=1"></script>
+    <script src="inicio.js?v=1"></script>
     <script src="galeria.js?v=1"></script>
     <script src="script.js?v=2"></script>
 </body>
